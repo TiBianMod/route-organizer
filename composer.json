@@ -1,0 +1,22 @@
+{
+    "name": "tibian/route-organizer",
+    "description": "Route Organizer for Laravel",
+    "keywords": ["routes", "organizer", "laravel"],
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michalis Giannas",
+            "email": "info@tibian.me",
+            "homepage": "https://tibian.me"
+        }
+    ],
+    "require": {
+        "tibian/resources": "0.1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "TiBian\\RouteOrganizer\\": "src"
+        }
+    }
+}
