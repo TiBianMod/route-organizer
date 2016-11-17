@@ -36,27 +36,9 @@ protected function mapWebRoutes()
 > Now you can Organize your Routes as you wish.
 > * The following example is the best if you use PHPStorm and Laravel Plugin
 
-```
-/path/to/laravel/routes/web
-    │   routes.php
-    │
-    └───Auth
-    │   routes.php
-    │
-    └───Blog
-    │   routes.php
-    │
-    └───Dashboard
-    │   │   routes.php
-    │   │
-    │   └───Admin
-    │       routes.php
-    │
-    └───Pages
-    │   routes.php
-    │
-    └───etc...
-```
+> /path/to/laravel/routes
+
+<img width="500" alt="route-organizer" src="https://github.com/TiBianMod/route-organizer/blob/master/route-organizer.png?raw=true">
 
 ##### Any idea for new projects, feel free to Contact me.
 
