@@ -2,7 +2,8 @@
 
 namespace TiBian\RouteOrganizer;
 
-use TiBian\Resources\Path;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Class RouteOrganizer
@@ -17,39 +18,91 @@ class RouteOrganizer
     protected $routePath;
 
     /**
-     * RecursiveIteratorIterator
-     *
-     * @var object Path
+     * @var \Symfony\Component\Finder\Finder
      */
-    protected $path;
+    protected $finder;
 
     /**
-     * Routes constructor.
+     * @var \Symfony\Component\Finder\SplFileInfo
      */
-    public function __construct()
+    protected $file;
+
+    /**
+     * RouteOrganizer constructor.
+     *
+     * @param string $path
+     */
+    public function __construct($path)
     {
-        $this->routePath = config('route-organizer.routePath');
+        $this->routePath = base_path($path);
+
+        $this->finder = new Finder();
 
         $this->createRoutePath();
-
-        $this->path = new Path($this->routePath);
 
         $this->process();
     }
 
-    private function createRoutePath()
+    /**
+     * Create Route Path
+     */
+    protected function createRoutePath()
     {
         if (! file_exists($this->routePath)) {
-            mkdir($this->routePath, 0755);
+            mkdir($this->routePath, 0755, true);
         }
     }
 
-    private function process()
+    /**
+     * Process the Request
+     */
+    protected function process()
     {
-        foreach ($this->path->getResources() as $r) {
-            if ($this->path->isExtension('php')) {
-                $this->path->isRequired();
-            }
+        collect($this->getResources())->each(function (SplFileInfo $file) {
+            $this->file = $file;
+
+            $this->requireRoute();
+        });
+    }
+
+    /**
+     * Require Route Files
+     */
+    protected function requireRoute()
+    {
+        if ($this->isExtension('php')) {
+            $this->isRequired();
+        }
+    }
+
+    /**
+     * Get File Resources
+     *
+     * @return \Symfony\Component\Finder\Finder|\Symfony\Component\Finder\SplFileInfo[]
+     */
+    protected function getResources()
+    {
+        return $this->finder->files()->in($this->routePath);
+    }
+
+    /**
+     * Checks if the file is a specific extension.
+     *
+     * @param string $extension
+     * @return bool
+     */
+    protected function isExtension($extension)
+    {
+        return strtolower($this->file->getExtension()) == strtolower($extension);
+    }
+
+    /**
+     * Require/Include the specific File.
+     */
+    protected function isRequired()
+    {
+        if ($this->file->isFile()) {
+            require $this->file->getRealPath();
         }
     }
 }

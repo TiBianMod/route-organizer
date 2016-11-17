@@ -12,7 +12,8 @@
         }
     ],
     "require": {
-        "tibian/resources": "0.1.*"
+        "php": ">=5.5.9",
+        "symfony/finder": "^v3.1"
     },
     "autoload": {
         "psr-4": {

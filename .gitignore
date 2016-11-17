@@ -1,5 +1,6 @@
-/.idea/
-*.txt
+/.idea
+/vendor
+*.lock
 *.DS_Store
 .Spotlight-V100
 .Trashes

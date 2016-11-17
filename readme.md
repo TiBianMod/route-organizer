@@ -1,29 +1,49 @@
 ## Route Organizer for Laravel
-Route Organizer is simple route solution for Laravel.
+Route Organizer for Laravel is simple route solution to organize your Routes.
 
 ### Install
+
 Require this package with composer using the following command
 ```
 composer require tibian/route-organizer
 ```
-After updating composer, add the service provider to the providers array in config/app.php
-```
-TiBian\RouteOrganizer\RouteOrganizerServiceProvider::class,
-```
 
 ### Usage
-The default Route path is `app/Http/Routes`,
-now under this entry point you can organize your Routes like you wish.
 
-### Example
+Open `App\Providers\RouteServiceProvider` on method `mapWebRoutes` / `mapApiRoutes` define new Routes for the Application.
+
+```php
+new RouteOrganizer('routes/web');
+new RouteOrganizer('routes/api');
 ```
-Routes (app/Http/Routes)
-    │   routes.php
-    │
-    └───Pages
+
+### Example for web routes
+> ##### Note: The same you can do of course and for the api Routes
+
+```php
+protected function mapWebRoutes()
+{
+    Route::group([
+        'middleware' => 'web',
+        'namespace' => $this->namespace,
+    ], function ($router) {
+        new RouteOrganizer('routes/web'); // new Web Routes for the Application
+        require base_path('routes/web.php');
+    });
+}
+```
+
+> Now you can Organize your Routes as you wish.
+> * The following example is the best if you use PHPStorm and Laravel Plugin
+
+```
+/path/to/laravel/routes/web
     │   routes.php
     │
     └───Auth
+    │   routes.php
+    │
+    └───Blog
     │   routes.php
     │
     └───Dashboard
@@ -32,23 +52,11 @@ Routes (app/Http/Routes)
     │   └───Admin
     │       routes.php
     │
-    └───Blog
+    └───Pages
     │   routes.php
     │
     └───etc...
 ```
-
-### Config
-You can also publish the config file to change it as you wish.
-```
-php artisan vendor:publish --provider="TiBian\RouteOrganizer\RouteOrganizerServiceProvider" --tag=config
-```
-
-### I'm looking for:
-- Individuals who can contribute to the Documentation.
-- Participation in other Open Source Projects.
-
-> Visit my Web Site and learn more [about me](https://tibian.me)
 
 ##### Any idea for new projects, feel free to Contact me.
 
